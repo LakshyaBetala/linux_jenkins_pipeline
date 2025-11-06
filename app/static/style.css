@@ -1,0 +1,9 @@
+body{font-family:Inter,system-ui,Arial,Helvetica,sans-serif;background:#f6f9fc;color:#222;margin:0}
+.container{max-width:900px;margin:24px auto;padding:16px}
+header h1{margin:0;font-size:28px}
+.muted{color:#666;font-size:13px}
+.card{background:#fff;padding:16px;border-radius:8px;box-shadow:0 6px 18px rgba(20,40,80,0.05);margin-top:16px}
+.big{font-size:20px}
+button{background:#2563eb;color:#fff;border:none;padding:8px 12px;border-radius:6px;cursor:pointer}
+input{padding:8px;border-radius:6px;border:1px solid #d0d7de;margin-right:8px}
+.result{background:#0f1724;color:#e6eef8;padding:8px;border-radius:6px;margin-top:8px}
