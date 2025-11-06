@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Flask CI/CD Demo Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Flask CI/CD Demo</h1>
+      <p class="muted">Built: {{ info.build_number }} &nbsp; | &nbsp; Commit: {{ info.git_commit }} </p>
+    </header>
+
+    <main>
+      <div class="card">
+        <h2>Greeting</h2>
+        <p class="big">{{ info.message }}</p>
+        <p class="muted">Deployed at: {{ info.deploy_time }}</p>
+      </div>
+
+      <div class="card">
+        <h2>Build Info</h2>
+        <ul>
+          <li><strong>Build #:</strong> {{ info.build_number }}</li>
+          <li><strong>Commit:</strong> {{ info.git_commit }}</li>
+          <li><strong>Message:</strong> {{ info.commit_msg }}</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h2>Actions</h2>
+        <form id="healthForm" method="post" action="/action/healthcheck">
+          <button type="button" onclick="doHealthCheck()">Health Check</button>
+        </form>
+
+        <form id="rollbackForm" method="post" action="/action/rollback">
+          <input id="rollbackTag" name="tag" placeholder="rollback tag (e.g. 6)" />
+          <button type="button" onclick="doRollback()">Rollback</button>
+        </form>
+
+        <pre id="actionResult" class="result"></pre>
+      </div>
+    </main>
+
+    <footer>
+      <p class="muted">Demo by Lakshya Betala</p>
+    </footer>
+  </div>
+
+<script>
+async function doHealthCheck(){
+  const res = await fetch('/action/healthcheck', {method:'POST'});
+  const data = await res.json();
+  document.getElementById('actionResult').textContent = JSON.stringify(data, null, 2);
+}
+
+async function doRollback(){
+  const tag = document.getElementById('rollbackTag').value;
+  const res = await fetch('/action/rollback', {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: `tag=${encodeURIComponent(tag)}`
+  });
+  const data = await res.json();
+  document.getElementById('actionResult').textContent = JSON.stringify(data, null, 2);
+}
+</script>
+</body>
+</html>
