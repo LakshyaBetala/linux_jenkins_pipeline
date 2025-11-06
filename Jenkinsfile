@@ -31,7 +31,7 @@ pipeline {
       steps {
         sh '''
           # tag with build number so we can track versions
-          sudo podman build -t ${IMAGE}:${BUILD_NUMBER} .
+          sudo sudo podman build -t ${IMAGE}:${BUILD_NUMBER} .
         '''
       }
     }
@@ -39,9 +39,9 @@ pipeline {
     stage('Push Image') {
       steps {
         sh '''
-          sudo podman tag ${IMAGE}:${BUILD_NUMBER} ${IMAGE}:latest || true
-          sudo podman push --tls-verify=false ${IMAGE}:${BUILD_NUMBER}
-          sudo podman push --tls-verify=false ${IMAGE}:latest
+          sudo sudo podman tag ${IMAGE}:${BUILD_NUMBER} ${IMAGE}:latest || true
+          sudo sudo podman push --tls-verify=false ${IMAGE}:${BUILD_NUMBER}
+          sudo sudo podman push --tls-verify=false ${IMAGE}:latest
         '''
       }
     }
@@ -50,13 +50,13 @@ pipeline {
       steps {
         sh '''
           # stop & remove previous container (if any)
-          if sudo podman ps -a --format "{{.Names}}" | grep -w myflask-staging; then
-            sudo podman stop myflask-staging || true
-            sudo podman rm myflask-staging || true
+          if sudo sudo podman ps -a --format "{{.Names}}" | grep -w myflask-staging; then
+            sudo sudo podman stop myflask-staging || true
+            sudo sudo podman rm myflask-staging || true
           fi
 
           # run new container (expose host port ${PORT} -> container 5000)
-          sudo podman run -d --name myflask-staging -p ${PORT}:5000 ${IMAGE}:${BUILD_NUMBER}
+          sudo sudo podman run -d --name myflask-staging -p ${PORT}:5000 ${IMAGE}:${BUILD_NUMBER}
         '''
       }
     }
