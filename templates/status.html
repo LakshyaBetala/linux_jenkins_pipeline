@@ -1,0 +1,6 @@
+@app.route('/status')
+def status():
+    return jsonify({
+        "health": "OK",
+        "timestamp": time.ctime(),
+    })
