@@ -62,17 +62,17 @@ pipeline {
     }
   }
 
+  
   post {
     always {
       script {
-        sh 'echo "Pipeline finished with status: ${currentBuild.currentResult}"'
+        echo "Pipeline finished with status: ${currentBuild.currentResult}"
       }
     }
-    failure {
-      mail to: 'you@example.com',
-           subject: "Build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed",
-           body: "Check Jenkins: ${env.BUILD_URL}"
-    }
+    // failure {
+    //   mail to: 'you@example.com',
+    //        subject: "Build ${env.JOB_NAME} #${env.BUILD_NUMBER} failed",
+    //        body: "Check Jenkins: ${env.BUILD_URL}"
+    // }
   }
 }
-
